@@ -1,0 +1,50 @@
+﻿@model IEnumerable<BirthdayPresentPoll.Web.Data.Poll>
+@using Microsoft.AspNet.Identity;
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Initiator)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Celebrant)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Initiator.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Celebrant.UserName)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+
+                @if (item.InitiatorId == User.Identity.GetUserId())
+                {
+                    if (item.IsActive)
+                    {
+                        <a asp-action="Stop" asp-route-id="@item.Id">Stop </a>
+                    }
+
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
